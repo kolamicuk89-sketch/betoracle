@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="BetOracle.MainPage"
+             BackgroundColor="#0B1026">
+
+    <Grid RowDefinitions="Auto,*,Auto"
+          Padding="24,16"
+          RowSpacing="8">
+
+        <VerticalStackLayout Grid.Row="0" Spacing="2">
+            <Label Text="Оракул спора"
+                   FontSize="30"
+                   FontAttributes="Bold"
+                   TextColor="White"
+                   HorizontalOptions="Center" />
+            <Label Text="задай вопрос — тряси телефон или жми кнопку"
+                   FontSize="13"
+                   TextColor="#8FA3C8"
+                   HorizontalOptions="Center" />
+        </VerticalStackLayout>
+
+        <Border x:Name="Ball"
+                Grid.Row="1"
+                StrokeShape="Ellipse"
+                Stroke="#1B2168"
+                StrokeThickness="6"
+                WidthRequest="320"
+                HeightRequest="320"
+                HorizontalOptions="Center"
+                VerticalOptions="Center">
+            <Border.Background>
+                <RadialGradientBrush>
+                    <GradientStop Color="#4A55D6" Offset="0.0" />
+                    <GradientStop Color="#1B2168" Offset="0.65" />
+                    <GradientStop Color="#070A24" Offset="1.0" />
+                </RadialGradientBrush>
+            </Border.Background>
+            <Border.GestureRecognizers>
+                <TapGestureRecognizer Tapped="OnAskTapped" />
+            </Border.GestureRecognizers>
+            <Grid WidthRequest="160"
+                  HeightRequest="160">
+                <Border StrokeShape="Ellipse"
+                        StrokeThickness="0"
+                        BackgroundColor="#F2F5FC"
+                        WidthRequest="160"
+                        HeightRequest="160" />
+                <Label x:Name="AnswerLabel"
+                       Text="8"
+                       FontSize="24"
+                       FontAttributes="Bold"
+                       TextColor="#1B2168"
+                       HorizontalTextAlignment="Center"
+                       VerticalTextAlignment="Center"
+                       LineBreakMode="WordWrap"
+                       Padding="16,0" />
+            </Grid>
+        </Border>
+
+        <VerticalStackLayout Grid.Row="2" Spacing="10">
+            <Button x:Name="AskButton"
+                    Text="Спросить оракула"
+                    FontSize="18"
+                    Clicked="OnAskClicked"
+                    HorizontalOptions="Center" />
+            <Label x:Name="CounterLabel"
+                   Text="Предсказаний: 0"
+                   FontSize="13"
+                   TextColor="#8FA3C8"
+                   HorizontalOptions="Center" />
+        </VerticalStackLayout>
+
+    </Grid>
+
+</ContentPage>
