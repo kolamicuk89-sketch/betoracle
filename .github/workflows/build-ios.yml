@@ -36,10 +36,17 @@ jobs:
             -p:EnablePackageSigning=false \
             -p:MtouchLink=SdkOnly
 
-      - name: Pack unsigned IPA
-        run: |
-          APP=$(find . -type d -name "*.app" -path "*publish*" | head -n 1)
+            - name: Pack unsigned IPA
+              run: |
+          echo "Searching for .app bundles..."
+          find . -type d -name "*.app" 2>/dev/null || true
+          APP=$(find . -type d -name "*.app" | head -n 1)
           echo "App bundle: $APP"
+          if [ -z "$APP" ]; then
+            echo "::error::No .app bundle found. Dumping bin tree:"
+            find BetOracle/bin -maxdepth 5 -type d 2>/dev/null | head -60
+            exit 1
+          fi
           rm -rf Payload unsigned.ipa
           mkdir Payload
           cp -R "$APP" Payload/
