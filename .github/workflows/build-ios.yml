@@ -22,7 +22,9 @@ jobs:
       - name: Publish unsigned device build
         run: |
           dotnet publish BetOracle/BetOracle.csproj \
-            -f net10.0-ios -c Release \
+            -f net10.0-ios \
+            -p:TargetFrameworks=net10.0-ios \
+            -c Release \
             -p:RuntimeIdentifier=ios-arm64 \
             -p:EnableCodeSigning=false \
             -p:EnablePackageSigning=false \
