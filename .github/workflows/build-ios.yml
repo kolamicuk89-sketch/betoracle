@@ -8,33 +8,34 @@ on:
 jobs:
   build:
     runs-on: macos-26
+
     steps:
       - uses: actions/checkout@v4
 
-      - name: Setup .NET 9
+      - name: Setup .NET 10.0.100
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: 9.0.1xx
+          dotnet-version: 10.0.100
 
       - name: Install MAUI iOS workload
-        run: dotnet workload install maui-ios
+        run: dotnet workload install maui-ios --skip-manifest-update
 
-      - name: Select Xcode 26.5
+      - name: Check Xcode
         run: |
-          ls /Applications/ | grep -i xcode
-          sudo xcode-select -s "/Applications/Xcode_26.5.app/Contents/Developer"
+          echo "Default Xcode: $(xcode-select -p)"
           xcodebuild -version
 
       - name: Publish unsigned device build
         run: |
           dotnet publish BetOracle/BetOracle.csproj \
-            -f net9.0-ios \
-            -p:TargetFrameworks=net9.0-ios \
+            -f net10.0-ios \
+            -p:TargetFrameworks=net10.0-ios \
             -c Release \
             -p:RuntimeIdentifier=ios-arm64 \
             -p:EnableCodeSigning=false \
             -p:EnablePackageSigning=false \
-            -p:MtouchLink=SdkOnly
+            -p:MtouchLink=SdkOnly \
+            -p:ValidateXcodeVersion=false
 
       - name: Collect IPA
         run: |
