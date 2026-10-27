@@ -11,19 +11,25 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Setup .NET
+      - name: Setup .NET 9
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: 10.0.x
+          dotnet-version: 9.0.1xx
 
       - name: Install MAUI iOS workload
         run: dotnet workload install maui-ios
 
+      - name: Select Xcode 26.5
+        run: |
+          ls /Applications/ | grep -i xcode
+          sudo xcode-select -s "/Applications/Xcode_26.5.app/Contents/Developer"
+          xcodebuild -version
+
       - name: Publish unsigned device build
         run: |
           dotnet publish BetOracle/BetOracle.csproj \
-            -f net10.0-ios \
-            -p:TargetFrameworks=net10.0-ios \
+            -f net9.0-ios \
+            -p:TargetFrameworks=net9.0-ios \
             -c Release \
             -p:RuntimeIdentifier=ios-arm64 \
             -p:EnableCodeSigning=false \
